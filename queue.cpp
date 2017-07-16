@@ -3,7 +3,7 @@
 Queue::Queue() {
     size = 0;
     head = nullptr;
-    last = nullptr;
+    tail = nullptr;
 }
 
 Queue::~Queue() {
@@ -11,17 +11,17 @@ Queue::~Queue() {
         pop();
 }
 
-void Queue::push(int num) {
-    if(last == nullptr) {
+void Queue::push(int num) noexcept {
+    if(tail == nullptr) {
         head = new ListItem;
-        head->n = num;
-        head->p = nullptr;
-        last = head;
+        head->item = num;
+        head->p_prevItem = nullptr;
+        tail = head;
     } else {
         ListItem* tmp = new ListItem;
-        last->p = tmp;
-        tmp->n = num;
-        last = tmp;
+        tail->p_prevItem = tmp;
+        tmp->item = num;
+        tail = tmp;
     }
     ++size;
 }
@@ -29,12 +29,12 @@ void Queue::push(int num) {
 int Queue::pop() {
     if(head != nullptr) {
         ListItem tmp;
-        tmp.p = head->p;
-        tmp.n = head->n;
+        tmp.p_prevItem = head->p_prevItem;
+        tmp.item = head->item;
         delete head;
-        head = tmp.p;
+        head = tmp.p_prevItem;
         --size;
-        return tmp.n;
+        return tmp.item;
     }
-    throw 6; // new QueueImplementedException
+    throw EmptyListException();
 }

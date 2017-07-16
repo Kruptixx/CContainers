@@ -5,6 +5,6 @@
 
 class StackExtended : public Stack {
 public:
-    int sum() const;
-    int max() const;
+    int sum() const noexcept;
+    int max() const noexcept;
 };

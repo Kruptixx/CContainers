@@ -16,8 +16,8 @@ Stack::Stack(const Stack& copy) {
     ListItem* tmp = copy.head;
     int arr[size];
     for(int i = copy.size - 1; i >= 0; --i) {
-        arr[i] = tmp->n;
-        tmp = tmp->p;
+        arr[i] = tmp->item;
+        tmp = tmp->p_prevItem;
     }
     size = 0;
     for(int i = 0; i < copy.size; ++i)
@@ -32,8 +32,8 @@ Stack& Stack::operator= (const Stack& copy) {
         ListItem* tmp = copy.head;
         int arr[size];
         for(int i = copy.size - 1; i >= 0; --i) {
-            arr[i] = tmp->n;
-            tmp = tmp->p;
+            arr[i] = tmp->item;
+            tmp = tmp->p_prevItem;
         }
         size = 0;
         for(int i = 0; i < copy.size; ++i)
@@ -42,29 +42,29 @@ Stack& Stack::operator= (const Stack& copy) {
     return *this;
 }
 
-void Stack::push(int num) {
+void Stack::push(int num) noexcept {
     if(head == nullptr) {
         head = new ListItem;
-        head->n = num;
-        head->p = nullptr;
+        head->item = num;
+        head->p_prevItem = nullptr;
     } else {
         ListItem* tmp = new ListItem;
-        tmp->p = head;
-        tmp->n = num;
+        tmp->p_prevItem = head;
+        tmp->item = num;
         head = tmp;
     }
     ++size;
 }
 
 int Stack::pop() {
-    if(head != nullptr) {
+    if(head != nullptr) { // or size != 0
         ListItem tmp;
-        tmp.p = head->p;
-        tmp.n = head->n;
+        tmp.p_prevItem = head->p_prevItem;
+        tmp.item = head->item;
         delete head;
-        head = tmp.p;
+        head = tmp.p_prevItem;
         --size;
-        return tmp.n;
+        return tmp.item;
     }
-    throw 5; // new StackImplementedException
+    throw EmptyListException(); // new StackImplementedException
 }

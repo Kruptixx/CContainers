@@ -7,6 +7,7 @@ TARGET=stackality.exe
 OBJSOURCES=main.o stack.o queue.o stackExtended.o
 OBJALL=*.o
 
+all: clean $(OBJSOURCES)
 
 $(TARGET): $(OBJSOURCES)
 	$(CC) $(STDFLAG) -o $(TARGET) $(OBJSOURCES)
@@ -21,4 +22,4 @@ stackExtended.o: stackExtended.cpp
 	$(CC) $(STDFLAG) $(COMPILEFLAGS) -o stackExtended.o stackExtended.cpp
 
 clean:
-	DEL $(OBJSOURCES)
+	rm -f *.o

@@ -9,6 +9,14 @@
 #include "stack.hpp"
 #include "stackExtended.hpp"
 
+#ifdef _WIN32
+    #define CLEARING "cls"
+#elif __linux__
+    #define CLEARING "clear"
+#else
+    #define CLEARING "???"
+#endif
+
 //   ***MAIN***
 int main() {
     StackExtended a, b;
@@ -29,7 +37,12 @@ int main() {
     std::cout << a.pop() << std::endl;
     std::cout << a.pop() << std::endl;
     std::cout << a.pop() << std::endl;
-    std::cout << "\n\nB=" << b.sum() << std::endl;
+    try {
+        a.pop();
+    } catch(const List<int>::EmptyListException& e) {
+        std::cout << e.what() << std::endl;
+    }
+    std::cout << "\n\nB=" << b.max() << std::endl;
     std::cout << b.pop() << std::endl;
     std::cout << b.pop() << std::endl;
     std::cout << b.pop() << std::endl;
